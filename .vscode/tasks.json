@@ -1,0 +1,255 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Project.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "release (major)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                    "Unrestricted",
+                "-NoProfile",
+                "-File",
+                    "${workspaceFolder}/_PublishingAssets/Publish.ps1",
+                "-publishTo",
+                    "C:\\Path\\To\\Site\\Production\\",
+                "-projectPath",
+                    ".\\Project.csproj",
+                "-iisPath",
+                    "Site",
+                "-releaseType",
+                    "major"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": ["build"]
+        },
+        {
+            "label": "release (minor)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                    "Unrestricted",
+                "-NoProfile",
+                "-File",
+                    "${workspaceFolder}/_PublishingAssets/Publish.ps1",
+                "-publishTo",
+                    "C:\\Path\\To\\Site\\Production\\",
+                "-projectPath",
+                    ".\\Project.csproj",
+                "-iisPath",
+                    "Site",
+                "-releaseType",
+                    "minor"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": ["build"]
+        },
+        {
+            "label": "release (patch)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                    "Unrestricted",
+                "-NoProfile",
+                "-File",
+                    "${workspaceFolder}/_PublishingAssets/Publish.ps1",
+                "-publishTo",
+                    "C:\\Path\\To\\Site\\Production\\",
+                "-projectPath",
+                    ".\\Project.csproj",
+                "-iisPath",
+                    "Site",
+                "-releaseType",
+                    "patch"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": ["build"]
+        },
+        {
+            "label": "release (suffix)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                    "Unrestricted",
+                "-NoProfile",
+                "-File",
+                    "${workspaceFolder}/_PublishingAssets/Publish.ps1",
+                "-publishTo",
+                    "C:\\Path\\To\\Site\\Production\\",
+                "-projectPath",
+                    ".\\Project.csproj",
+                "-iisPath",
+                    "Site",
+                "-releaseType",
+                    "suffix"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": ["build"]
+        },
+        {
+            "label": "staging (major)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                    "Unrestricted",
+                "-NoProfile",
+                "-File",
+                    "${workspaceFolder}/_PublishingAssets/Publish.ps1",
+                "-publishTo",
+                    "C:\\Path\\To\\Site\\Production\\",
+                "-projectPath",
+                    ".\\Project.csproj",
+                "-iisPath",
+                    "Site\\ApplicationFolder",
+                "-env",
+                    "Staging",
+                "-releaseType",
+                    "major"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": ["build"]
+        },
+        {
+            "label": "staging (minor)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                    "Unrestricted",
+                "-NoProfile",
+                "-File",
+                    "${workspaceFolder}/_PublishingAssets/Publish.ps1",
+                "-publishTo",
+                    "C:\\Path\\To\\Site\\Production\\",
+                "-projectPath",
+                    ".\\Project.csproj",
+                "-iisPath",
+                    "Site\\ApplicationFolder",
+                "-env",
+                    "Staging",
+                "-releaseType",
+                    "minor"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": ["build"]
+        },
+        {
+            "label": "staging (patch)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                    "Unrestricted",
+                "-NoProfile",
+                "-File",
+                    "${workspaceFolder}/_PublishingAssets/Publish.ps1",
+                "-publishTo",
+                    "C:\\Path\\To\\Site\\Production\\",
+                "-projectPath",
+                    ".\\Project.csproj",
+                "-iisPath",
+                    "Site\\ApplicationFolder",
+                "-env",
+                    "Staging",
+                "-releaseType",
+                    "patch"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": ["build"]
+        },
+        {
+            "label": "staging (suffix)",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                    "Unrestricted",
+                "-NoProfile",
+                "-File",
+                    "${workspaceFolder}/_PublishingAssets/Publish.ps1",
+                "-publishTo",
+                    "C:\\Path\\To\\Site\\Production\\",
+                "-projectPath",
+                    ".\\Project.csproj",
+                "-iisPath",
+                    "Site\\ApplicationFolder",
+                "-env",
+                    "Staging",
+                "-releaseType",
+                    "suffix"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": ["build"]
+        }
+    ]
+}
