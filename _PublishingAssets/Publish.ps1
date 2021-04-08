@@ -6,6 +6,7 @@ param(
     [string]$env = "Production"
 )
 
+Set-Location ((Get-Location).Path + "\_PublishingAssets")
 $currentLoc = Get-Location
 Import-Module WebAdministration
 
@@ -62,13 +63,15 @@ elseif (
 else {
     $revisionArray = (Get-Content -Path '_version.txt').Split('.')
     $revisionSuffixArray = ""
+    $revisionSuffixDash = ""
 
     if (
         Test-Path -Path ('_version-suffix-' + $env + '.txt') -PathType Leaf
     ) {
         $revisionSuffixArray = (Get-Content -Path ('_version-suffix-' + $env + '.txt')).Split(".")
+        $revisionSuffixDash = "-"
     }
-    
+
     if (
         -NOT ($revisionArray.Length -eq 3)
     ) {
@@ -76,7 +79,7 @@ else {
     }
     elseif (
         ($revisionSuffixArray -is [array] ) -and
-        -NOT ($revisionSuffixArray.Length -gt 2)
+        ($revisionSuffixArray.Length -gt 2)
     ) {
         Write-Host ("The suffix file is not a valid format. Please ensure that the '_version-suffix-" + $env + ".txt' file contents follow the versioning requirements") -ForegroundColor Red
     }
@@ -87,22 +90,23 @@ else {
         Write-Host ("A suffix file is required if the '-releaseType' is 'suffix'. Please ensure that the '_version-suffix-" + $env + ".txt' file exists") -ForegroundColor Red
     }
     else {
+        $oldRevision = ($revisionArray -join '.') + $revisionSuffixDash + ($revisionSuffixArray -join '.')
 
         Write-Host "--- Version Info ---"
-        Write-Host ("Current version: " + ($revisionArray -join '.') + ($revisionSuffixArray -join '.'))
+        Write-Host ("Current version: " + $oldRevision)
 
         switch ($releaseType) {
             "major" { 
-                $revisionArray[0] = $revisionArray[0] + 1
+                $revisionArray[0] = ($revisionArray[0] -as [int]) + 1
                 $revisionArray[1] = 0
                 $revisionArray[2] = 0
             }
             "minor" { 
-                $revisionArray[1] = $revisionArray[1] + 1
+                $revisionArray[1] = ($revisionArray[1] -as [int]) + 1
                 $revisionArray[2] = 0
             }
             "patch" { 
-                $revisionArray[2] = $revisionArray[2] + 1
+                $revisionArray[2] = ($revisionArray[2] -as [int]) + 1
             }
             Default {}
         }
@@ -118,7 +122,7 @@ else {
                 if (
                     $revisionSuffixArray -is [array]
                 ) {
-                    $revisionSuffixArray[1] = $revisionSuffixArray[1] + 1
+                    $revisionSuffixArray[1] = ($revisionSuffixArray[1] -as [int]) + 1
                 }
                 else {
                     $revisionSuffixArray = $revisionSuffixArray + 1
@@ -173,9 +177,9 @@ else {
             Start-Sleep -s 10
             Write-Host "Deleting"
             if (
-                (Test-Path -Path ($publishTo + $revision + "\") -PathType Container)
+                (Test-Path -Path ($publishTo + $oldRevision + "\") -PathType Container)
             ) {
-                Remove-Item ($publishTo + $revision + "\") -Recurse
+                Remove-Item ($publishTo + $oldRevision + "\") -Recurse
             }
         }
         Catch {
@@ -183,11 +187,13 @@ else {
             Write-Host "Error in publishing, please see error log"
         }
 
+        Remove-Variable -name oldRevision
         Remove-Variable -name newRevision
         Remove-Variable -name newPath
     }
 
     Remove-Variable -name revisionArray
+    Remove-Variable -name revisionSuffixDash
     Remove-Variable -name revisionSuffixArray
 }
 Remove-Module WebAdministration
